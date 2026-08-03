@@ -1,0 +1,521 @@
+<%- include("../partials/adminSidebar", { active: "orders" }) %>
+<%- include("../partials/adminTopbar") %>
+
+<style>
+:root{
+    --line:#e7e8f0;
+    --text:#1b1d29;
+    --muted:#6b7280;
+    --accent:#6d5bd0;
+    --accent-2:#f2a93b;
+    --green:#16a34a;
+    --red:#dc2626;
+}
+
+body{
+    background:#f4f5fa;
+}
+
+
+/* MAIN CONTENT */
+
+.ss-main{
+    margin-left:264px;
+    padding:100px 32px 40px;
+    min-height:100vh;
+    width:calc(100% - 264px);
+    box-sizing:border-box;
+}
+
+
+/* PAGE HEADER */
+
+.ss-page-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-bottom:26px;
+}
+
+.ss-page-head h2{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 5px;
+    color:var(--text);
+}
+
+.ss-page-head p{
+    color:var(--muted);
+    font-size:14px;
+    margin:0;
+}
+
+
+.ss-chip{
+    font-size:13px;
+    font-weight:700;
+    color:var(--accent);
+    background:#f0eefb;
+    border-radius:10px;
+    padding:9px 16px;
+}
+
+
+/* PANEL */
+
+.panel{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+}
+
+
+/* TABLE */
+
+.table-responsive{
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+}
+
+
+.table-responsive::-webkit-scrollbar{
+    height:7px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb{
+    background:#d1d5db;
+    border-radius:10px;
+}
+
+
+.ss-table{
+    width:100%;
+    min-width:1100px;
+    border-collapse:collapse;
+}
+
+
+.ss-table thead th{
+    text-align:left;
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--muted);
+    padding:14px 22px;
+    background:#fafafd;
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+}
+
+
+.ss-table tbody td{
+    padding:16px 22px;
+    font-size:14px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+}
+
+
+.ss-table tbody tr:last-child td{
+    border-bottom:none;
+}
+
+
+.ss-table tbody tr:hover{
+    background:#fafafd;
+}
+
+
+/* CUSTOMER */
+
+.row-index{
+    color:var(--muted);
+    font-weight:600;
+    font-size:13px;
+}
+
+
+.cust-name{
+    font-weight:600;
+    color:var(--text);
+}
+
+
+.cust-email{
+    font-size:12.5px;
+    color:var(--muted);
+}
+
+
+/* PRODUCTS */
+
+.prod-line{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:6px 0;
+    border-bottom:1px dashed var(--line);
+}
+
+
+.prod-line:last-child{
+    border-bottom:none;
+}
+
+
+.prod-name{
+    font-weight:600;
+    color:var(--text);
+}
+
+
+.prod-meta{
+    color:var(--muted);
+    font-size:12px;
+}
+
+
+.prod-price{
+    font-weight:600;
+    white-space:nowrap;
+}
+
+
+.no-products{
+    color:var(--muted);
+}
+
+
+/* PRICE */
+
+.amount-cell{
+    font-weight:700;
+    color:var(--green);
+    white-space:nowrap;
+}
+
+
+/* STATUS */
+
+.status-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+
+.status-pill::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:currentColor;
+}
+
+
+.status-delivered{
+    background:#ecfdf5;
+    color:var(--green);
+}
+
+
+.status-shipped{
+    background:#eef2ff;
+    color:var(--accent);
+}
+
+
+.status-pending{
+    background:#fffbeb;
+    color:#b45309;
+}
+
+
+.status-cancelled{
+    background:#fef2f2;
+    color:var(--red);
+}
+
+
+/* DATE */
+
+.date-cell{
+    color:var(--muted);
+    white-space:nowrap;
+}
+
+
+/* UPDATE FORM */
+
+.update-form{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    min-width:160px;
+}
+
+
+.update-form select{
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:8px 10px;
+    background:#fafafd;
+    outline:none;
+    font-size:13px;
+}
+
+
+.update-form select:focus{
+    border-color:var(--accent);
+    background:#fff;
+}
+
+
+.update-form button{
+    border:none;
+    background:var(--accent);
+    color:white;
+    border-radius:9px;
+    padding:8px 10px;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+
+.update-form button:hover{
+    background:#5c4cc2;
+}
+
+
+/* EMPTY */
+
+.ss-empty{
+    padding:60px 20px;
+    text-align:center;
+    color:var(--muted);
+}
+
+
+.ss-empty i{
+    display:block;
+    font-size:36px;
+    color:var(--line);
+    margin-bottom:12px;
+}
+
+
+.ss-empty h4{
+    color:var(--text);
+    font-size:17px;
+    margin-bottom:5px;
+}
+
+
+
+/* TABLET */
+
+@media(max-width:991px){
+
+    .ss-main{
+        margin-left:76px;
+        width:calc(100% - 76px);
+        padding:90px 20px 30px;
+    }
+
+
+    .ss-page-head h2{
+        font-size:22px;
+    }
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:576px){
+
+    .ss-main{
+        margin-left:76px;
+        width:calc(100% - 76px);
+        padding:85px 12px 25px;
+    }
+
+
+    .ss-page-head{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+
+    .ss-chip{
+        width:100%;
+        text-align:center;
+    }
+
+
+    .panel{
+        border-radius:12px;
+    }
+
+
+    .ss-table thead th{
+        padding:12px 15px;
+        font-size:11px;
+    }
+
+
+    .ss-table tbody td{
+        padding:13px 15px;
+        font-size:13px;
+    }
+
+
+    .update-form{
+        min-width:140px;
+    }
+
+}
+</style>
+
+<div class="ss-main">
+
+    <div class="ss-page-head">
+
+        <div>
+            <h2>Manage Orders</h2>
+            <p>View and update customer orders.</p>
+        </div>
+
+        <span class="ss-chip">Total Orders: <%= orders.length %></span>
+
+    </div>
+
+    <% if (orders.length === 0) { %>
+
+        <div class="panel">
+            <div class="ss-empty">
+                <i class="bi bi-receipt"></i>
+                <h4>No orders found</h4>
+                Orders placed by customers will show up here.
+            </div>
+        </div>
+
+    <% } else { %>
+
+    <div class="panel">
+
+        <div class="table-responsive">
+
+            <table class="ss-table">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Products</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                <% orders.forEach((order, index) => {
+                    const statusRaw = (order.status || "").toLowerCase();
+                    let statusClass = "status-pending";
+                    if (statusRaw === "delivered") statusClass = "status-delivered";
+                    else if (statusRaw === "shipped") statusClass = "status-shipped";
+                    else if (statusRaw === "cancelled" || statusRaw === "canceled") statusClass = "status-cancelled";
+                %>
+
+                    <tr>
+
+                        <td class="row-index"><%= index + 1 %></td>
+
+                        <td>
+                            <div class="cust-name"><%= order.user?.name || "Deleted User" %></div>
+                            <div class="cust-email"><%= order.user?.email || "" %></div>
+                        </td>
+
+                        <td style="min-width:220px;">
+
+                            <% if (order.products && order.products.length) { %>
+
+                                <% order.products.forEach(item => { %>
+
+                                    <div class="prod-line">
+                                        <div>
+                                            <div class="prod-name"><%= item.product ? item.product.title : "Deleted Product" %></div>
+                                            <div class="prod-meta">Qty <%= item.quantity %></div>
+                                        </div>
+                                        <div class="prod-price">₹<%= item.price %></div>
+                                    </div>
+
+                                <% }) %>
+
+                            <% } else { %>
+
+                                <span class="no-products">No products</span>
+
+                            <% } %>
+
+                        </td>
+
+                        <td class="amount-cell">₹<%= order.totalPrice %></td>
+
+                        <td><span class="status-pill <%= statusClass %>"><%= order.status %></span></td>
+
+                        <td class="date-cell"><%= order.createdAt.toDateString() %></td>
+
+                        <td>
+
+                            <form action="/admin/order/<%= order._id %>" method="POST" class="update-form">
+
+                                <select name="status">
+                                    <option value="Pending" <%= order.status === "Pending" ? "selected" : "" %>>Pending</option>
+                                    <option value="Shipped" <%= order.status === "Shipped" ? "selected" : "" %>>Shipped</option>
+                                    <option value="Delivered" <%= order.status === "Delivered" ? "selected" : "" %>>Delivered</option>
+                                    <option value="Cancelled" <%= order.status === "Cancelled" ? "selected" : "" %>>Cancelled</option>
+                                </select>
+
+                                <button type="submit">Update status</button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <% } %>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

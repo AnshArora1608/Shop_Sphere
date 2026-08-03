@@ -1,0 +1,281 @@
+<%- include("./partials/header") %>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="d-flex align-items-baseline justify-content-between mb-4">
+    <h2 class="section-title">My orders</h2>
+</div>
+
+<% if (orders.length === 0) { %>
+
+<div class="empty-cart">
+    <div class="empty-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 7l8-4 8 4v10l-8 4-8-4V7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 7l8 4 8-4M12 11v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </div>
+    <h5 class="mb-1">You haven't placed any orders yet</h5>
+    <p class="text-muted mb-3">Orders you place will show up here.</p>
+    <a href="/" class="btn btn-add-cart">Start shopping</a>
+</div>
+
+<% } else { %>
+
+<% orders.forEach(order => { %>
+
+<div class="order-card mb-4">
+
+    <div class="order-header">
+
+        <div class="d-flex align-items-center gap-3">
+            <span class="status-badge status-<%= order.status.toLowerCase().replace(/\s+/g,'-') %>">
+                <%= order.status %>
+            </span>
+            <span class="order-date"><%= order.createdAt.toDateString() %></span>
+        </div>
+
+        <span class="order-id">Order #<%= order._id.toString().slice(-8).toUpperCase() %></span>
+
+    </div>
+
+    <div class="order-body">
+
+        <% order.products.forEach(item => { %>
+
+        <div class="order-row">
+
+            <img
+                src="<%= item.product.imageURL %>"
+                class="order-img"
+                alt="<%= item.product.title %>">
+
+            <div class="order-info">
+                <h5 class="order-item-title"><%= item.product.title %></h5>
+                <p class="order-qty">Qty <%= item.quantity %> · ₹<%= item.price %> each</p>
+            </div>
+
+            <div class="order-line-total">
+                ₹<%= item.price * item.quantity %>
+            </div>
+
+        </div>
+
+        <% }) %>
+
+        <div class="order-footer">
+            <span>Order total</span>
+            <span class="order-total-amount">₹<%= order.totalPrice %></span>
+        </div>
+
+    </div>
+
+</div>
+
+<% }) %>
+
+<% } %>
+
+<style>
+
+:root{
+    --ink:#12131A;
+    --paper:#FBFBFA;
+    --accent:#3B49DF;
+    --success:#0E8A6D;
+    --warning:#B4790E;
+    --danger:#D8394C;
+    --muted:#6B7280;
+    --line:#E6E6E9;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+}
+
+body{
+    background:var(--paper);
+    font-family:var(--font-body);
+    color:var(--ink);
+}
+
+.section-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.6rem;
+    margin:0;
+}
+
+/* Empty state */
+.empty-cart{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:3.5rem 1.5rem;
+    text-align:center;
+}
+
+.empty-icon{
+    width:64px;
+    height:64px;
+    margin:0 auto 1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#EEF0FD;
+    color:var(--accent);
+}
+
+.btn-add-cart{
+    background:var(--ink);
+    color:#fff;
+    border-radius:9px;
+    font-weight:600;
+    font-size:.9rem;
+    border:none;
+    padding:.65rem 1.2rem;
+    display:inline-block;
+    transition:.2s;
+    text-decoration:none;
+}
+
+.btn-add-cart:hover{
+    background:var(--accent);
+    color:#fff;
+}
+
+/* Order card */
+.order-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.order-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:.5rem;
+    padding:1rem 1.25rem;
+    background:#F7F7FA;
+    border-bottom:1px solid var(--line);
+}
+
+.order-date, .order-id{
+    font-size:.85rem;
+    color:var(--muted);
+}
+
+.order-id{
+    font-family:var(--font-display);
+    font-weight:600;
+    color:var(--ink);
+}
+
+.status-badge{
+    display:inline-block;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:.3rem .65rem;
+    border-radius:20px;
+}
+
+.status-pending{
+    background:#FCF1DC;
+    color:var(--warning);
+}
+
+.status-processing, .status-confirmed{
+    background:#EEF0FD;
+    color:var(--accent);
+}
+
+.status-shipped, .status-out-for-delivery{
+    background:#E4EEFB;
+    color:#1E6FBF;
+}
+
+.status-delivered{
+    background:#E4F5EF;
+    color:var(--success);
+}
+
+.status-cancelled{
+    background:#FBE7E9;
+    color:var(--danger);
+}
+
+.order-body{
+    padding:1.25rem;
+}
+
+.order-row{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    padding:.75rem 0;
+    border-bottom:1px solid var(--line);
+}
+
+.order-row:last-of-type{
+    border-bottom:none;
+}
+
+.order-img{
+    width:72px;
+    height:72px;
+    object-fit:cover;
+    border-radius:10px;
+    flex-shrink:0;
+}
+
+.order-info{
+    flex:1;
+    min-width:0;
+}
+
+.order-item-title{
+    font-family:var(--font-display);
+    font-size:.98rem;
+    font-weight:600;
+    margin-bottom:.2rem;
+}
+
+.order-qty{
+    font-size:.85rem;
+    color:var(--muted);
+    margin:0;
+}
+
+.order-line-total{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:.95rem;
+    flex-shrink:0;
+}
+
+.order-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:1rem;
+    margin-top:.5rem;
+}
+
+.order-total-amount{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.2rem;
+}
+
+@media (max-width:576px){
+    .order-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+}
+
+</style>
+
+<%- include("./partials/footer") %>

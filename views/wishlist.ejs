@@ -1,0 +1,237 @@
+<%- include("./partials/header") %>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="d-flex align-items-baseline justify-content-between mb-4">
+    <h2 class="section-title">My wishlist</h2>
+</div>
+
+<% if(items.length === 0){ %>
+
+<div class="empty-state">
+    <div class="empty-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.35-9.5-8.5C.9 8.2 2.4 5 5.6 5c1.9 0 3.4 1.1 4.4 2.6C11 6.1 12.5 5 14.4 5c3.2 0 4.7 3.2 3.1 6.5C19 15.65 12 20 12 20z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+    </div>
+    <h5 class="mb-1">Your wishlist is empty</h5>
+    <p class="text-muted mb-3">Save products you like by tapping the heart icon on any item.</p>
+    <a href="/" class="btn btn-add-cart">Browse products</a>
+</div>
+
+<% } else { %>
+
+<div class="row g-4">
+
+<% items.forEach(item => { %>
+
+<div class="col-lg-3 col-md-6">
+
+<div class="product-card h-100">
+
+<div class="product-img-wrap">
+    <img
+    src="<%= item.product.imageURL %>"
+    class="product-img"
+    alt="<%= item.product.title %>">
+
+    <form action="/wishlist/remove/<%= item.product._id %>" method="POST" class="wishlist-remove-form">
+        <button class="wishlist-remove-btn" type="submit" aria-label="Remove from wishlist">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.9-4.35-9.35-8.5C1.1 9.1 2.5 6 5.6 6c1.8 0 3.3 1 4.4 2.4C11.1 7 12.6 6 14.4 6c3.1 0 4.5 3.1 2.95 6.5C18.9 16.65 12 21 12 21z"/></svg>
+        </button>
+    </form>
+</div>
+
+<div class="card-body d-flex flex-column">
+
+    <p class="product-category"><%= item.product.category %></p>
+
+    <h5 class="product-title"><%= item.product.title %></h5>
+
+    <span class="product-price mt-2 mb-3">₹<%= item.product.price %></span>
+    
+
+    <div class="mt-auto d-flex flex-column gap-2">
+
+        <a href="/products/<%= item.product._id %>" class="btn btn-outline-dark w-100">
+            View details
+        </a>
+
+        <div class="d-grid gap-2">
+
+    <a href="/products/<%= item.product._id %>"
+       class="btn btn-outline-dark">
+        View Details
+    </a>
+
+    <form action="/cart/add/<%= item.product._id %>" method="POST">
+        <button class="btn btn-add-cart w-100">
+            🛒 Move to Cart
+        </button>
+    </form>
+
+</div>
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
+<% } %>
+
+<style>
+
+:root{
+    --ink:#12131A;
+    --paper:#FBFBFA;
+    --accent:#3B49DF;
+    --accent-ink:#2B36B0;
+    --success:#0E8A6D;
+    --danger:#D8394C;
+    --muted:#6B7280;
+    --line:#E6E6E9;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+}
+
+body{
+    background:var(--paper);
+    font-family:var(--font-body);
+    color:var(--ink);
+}
+
+.section-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.6rem;
+    margin:0;
+}
+
+/* Empty state */
+.empty-state{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:3.5rem 1.5rem;
+    text-align:center;
+}
+
+.empty-icon{
+    width:64px;
+    height:64px;
+    margin:0 auto 1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#EEF0FD;
+    color:var(--accent);
+}
+
+.btn-add-cart{
+    background:var(--ink);
+    color:#fff;
+    border-radius:9px;
+    font-weight:600;
+    font-size:.9rem;
+    border:none;
+    padding:.65rem 1.2rem;
+    transition:.2s;
+    display:inline-block;
+    text-decoration:none;
+}
+
+.btn-add-cart:hover{
+    background:var(--accent);
+    color:#fff;
+}
+
+/* Product cards (shared with storefront) */
+.product-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    transition:.25s ease;
+}
+
+.product-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 34px rgba(18,19,26,.10);
+    border-color:transparent;
+}
+
+.product-img-wrap{
+    position:relative;
+    height:220px;
+    overflow:hidden;
+    background:#F3F3F5;
+}
+
+.product-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.wishlist-remove-form{
+    position:absolute;
+    top:.6rem;
+    right:.6rem;
+}
+
+.wishlist-remove-btn{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,255,255,.92);
+    color:var(--danger);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+    transition:.15s;
+}
+
+.wishlist-remove-btn:hover{
+    background:var(--danger);
+    color:#fff;
+}
+
+.product-category{
+    text-transform:uppercase;
+    font-size:.7rem;
+    letter-spacing:.06em;
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:.2rem;
+}
+
+.product-title{
+    font-size:1rem;
+    font-weight:600;
+    margin-bottom:0;
+}
+
+.product-price{
+    font-family:var(--font-display);
+    font-size:1.2rem;
+    font-weight:700;
+    color:var(--success);
+}
+
+.btn-outline-dark{
+    border-radius:9px;
+    font-weight:600;
+    font-size:.9rem;
+}
+
+</style>
+
+<%- include("./partials/footer") %>

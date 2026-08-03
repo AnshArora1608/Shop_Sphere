@@ -1,0 +1,264 @@
+<%- include("../partials/adminSidebar", { active: "notifications" }) %>
+<%- include("../partials/adminTopbar") %>
+
+
+<style>
+
+.ss-main{
+    margin-left:264px;
+    padding:100px 32px 40px;
+    width:calc(100% - 264px);
+}
+
+
+.panel{
+
+    background:#fff;
+    border:1px solid #e7e8f0;
+    border-radius:16px;
+    overflow:hidden;
+
+}
+
+
+.panel-head{
+
+    padding:20px 24px;
+    border-bottom:1px solid #e7e8f0;
+
+}
+
+
+.panel-head h2{
+
+    margin:0;
+    font-size:22px;
+
+}
+
+
+.notification-card{
+
+    display:flex;
+    gap:15px;
+    padding:18px 24px;
+    border-bottom:1px solid #e7e8f0;
+    align-items:center;
+
+}
+
+
+.notification-card:hover{
+
+    background:#fafafd;
+
+}
+
+
+.notification-icon{
+
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:#6d5bd0;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+}
+
+
+.notification-content{
+
+    flex:1;
+
+}
+
+
+.notification-content h4{
+
+    margin:0;
+    font-size:15px;
+
+}
+
+
+.notification-content p{
+
+    margin:5px 0;
+    color:#6b7280;
+    font-size:14px;
+
+}
+
+
+.notification-content small{
+
+    color:#9ca3af;
+
+}
+
+
+.unread{
+
+    background:#f5f3ff;
+
+}
+
+
+.read-btn{
+
+    padding:7px 14px;
+    background:#6d5bd0;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-size:12px;
+
+}
+
+
+.empty{
+
+    padding:50px;
+    text-align:center;
+    color:#6b7280;
+
+}
+
+
+@media(max-width:991px){
+
+.ss-main{
+
+    margin-left:76px;
+    width:calc(100% - 76px);
+
+}
+
+}
+
+
+@media(max-width:576px){
+
+.ss-main{
+
+    margin-left:0;
+    width:100%;
+    padding:90px 15px;
+
+}
+
+}
+
+
+</style>
+
+
+
+<div class="ss-main">
+
+
+<div class="panel">
+
+
+<div class="panel-head">
+
+<h2>
+Notifications
+</h2>
+
+</div>
+
+
+
+<% if(notifications && notifications.length){ %>
+
+
+<% notifications.forEach(n => { %>
+
+
+<div class="notification-card <%= n.read ? '' : 'unread' %>">
+
+
+<div class="notification-icon">
+
+<i class="bi bi-bell"></i>
+
+</div>
+
+
+
+<div class="notification-content">
+
+
+<h4>
+<%= n.title %>
+</h4>
+
+
+<p>
+<%= n.message %>
+</p>
+
+
+<small>
+<%= new Date(n.createdAt).toLocaleString() %>
+</small>
+
+
+</div>
+
+
+
+<% if(!n.read){ %>
+
+<a 
+href="/admin/notifications/read/<%= n._id %>"
+class="read-btn">
+
+Mark Read
+
+</a>
+
+<% } %>
+
+
+
+</div>
+
+
+<% }) %>
+
+
+
+<% }else{ %>
+
+
+<div class="empty">
+
+<i class="bi bi-bell-slash"></i>
+
+<br>
+
+No notifications found
+
+</div>
+
+
+<% } %>
+
+
+
+</div>
+
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

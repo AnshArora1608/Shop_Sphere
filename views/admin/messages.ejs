@@ -1,0 +1,237 @@
+<%- include("../partials/adminSidebar", { active: "messages" }) %>
+<%- include("../partials/adminTopbar") %>
+
+
+<style>
+
+.ss-main{
+    margin-left:264px;
+    padding:100px 32px 40px;
+    width:calc(100% - 264px);
+}
+
+
+.panel{
+
+    background:#fff;
+    border:1px solid #e7e8f0;
+    border-radius:16px;
+    overflow:hidden;
+
+}
+
+
+.panel-head{
+
+    padding:20px 24px;
+    border-bottom:1px solid #e7e8f0;
+
+}
+
+
+.panel-head h2{
+
+    margin:0;
+    font-size:22px;
+
+}
+
+
+.ss-table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+
+.ss-table th{
+
+    background:#fafafd;
+    padding:12px 20px;
+    font-size:12px;
+    color:#6b7280;
+    text-transform:uppercase;
+
+}
+
+
+.ss-table td{
+
+    padding:15px 20px;
+    border-bottom:1px solid #e7e8f0;
+    font-size:14px;
+
+}
+
+
+.ss-table tr:hover{
+
+    background:#fafafd;
+
+}
+
+
+.unread{
+
+    background:#f5f3ff;
+
+}
+
+
+.read-btn{
+
+    background:#6d5bd0;
+    color:white;
+    text-decoration:none;
+    padding:6px 12px;
+    border-radius:8px;
+    font-size:12px;
+
+}
+
+
+.empty{
+
+    padding:50px;
+    text-align:center;
+    color:#6b7280;
+
+}
+
+
+</style>
+
+
+
+<div class="ss-main">
+
+
+<div class="panel">
+
+
+<div class="panel-head">
+
+<h2>
+Contact Messages
+</h2>
+
+</div>
+
+
+
+<% if(messages && messages.length){ %>
+
+
+
+<table class="ss-table">
+
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+<th>Email</th>
+<th>Subject</th>
+<th>Message</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+<% messages.forEach(msg=>{ %>
+
+
+<tr class="<%= msg.read ? '' : 'unread' %>">
+
+
+<td>
+<%= msg.name %>
+</td>
+
+
+<td>
+<%= msg.email %>
+</td>
+
+
+<td>
+<%= msg.subject %>
+</td>
+
+
+<td>
+<%= msg.message.substring(0,50) %>...
+</td>
+
+
+<td>
+
+
+<% if(!msg.read){ %>
+
+<a 
+href="/admin/messages/read/<%= msg._id %>"
+class="read-btn">
+
+Mark Read
+
+</a>
+
+<% }else{ %>
+
+Read
+
+<% } %>
+
+
+</td>
+
+
+</tr>
+
+
+<% }) %>
+
+
+</tbody>
+
+
+</table>
+
+
+
+<% }else{ %>
+
+
+<div class="empty">
+
+<i class="bi bi-envelope-open"></i>
+
+<br>
+
+No messages found
+
+</div>
+
+
+<% } %>
+
+
+</div>
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

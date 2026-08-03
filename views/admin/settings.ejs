@@ -1,0 +1,345 @@
+<%- include("../partials/adminSidebar",{active:"settings"}) %>
+<%- include("../partials/adminTopbar") %>
+
+<style>
+
+.ss-page{
+    padding:32px;
+}
+
+.page-title{
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:4px;
+    color:#1b1d29;
+}
+
+.page-subtitle{
+    color:#6b7280;
+    margin-bottom:30px;
+}
+
+.setting-card{
+    background:#fff;
+    border:1px solid #e7e8f0;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:24px;
+    box-shadow:0 10px 25px rgba(0,0,0,.04);
+}
+
+.setting-card h5{
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.form-control,
+.form-select{
+    border-radius:10px;
+    height:46px;
+    border:1px solid #dfe3ea;
+}
+
+textarea.form-control{
+    height:auto;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color:#6d5bd0;
+    box-shadow:0 0 0 .2rem rgba(109,91,208,.15);
+}
+
+.form-label{
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.btn-save{
+    background:#6d5bd0;
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    padding:12px 30px;
+    font-weight:600;
+}
+
+.btn-save:hover{
+    background:#5b49bf;
+    color:#fff;
+}
+
+.store-logo{
+    width:95px;
+    height:95px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+    border:4px solid #eef0ff;
+}
+
+.switch-box{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 0;
+    border-bottom:1px solid #ececec;
+}
+
+.switch-box:last-child{
+    border:none;
+}
+
+.quick-btn{
+    border-radius:10px;
+    padding:11px;
+    font-weight:600;
+}
+.ss-main{
+margin-left:264px;
+padding:100px 32px 40px;
+min-height:100vh;
+width:calc(100% - 264px);
+box-sizing:border-box;
+}
+
+
+@media(max-width:991px){
+
+.ss-main{
+margin-left:76px;
+width:calc(100% - 76px);
+padding:90px 20px 30px;
+}
+
+}
+
+@media(max-width:992px){
+
+    .ss-page{
+        padding:20px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .page-title{
+        font-size:24px;
+    }
+
+    .setting-card{
+        padding:18px;
+    }
+
+}
+
+</style>
+
+<div class="ss-main">
+
+<div class="ss-page">
+
+<h2 class="page-title">Settings</h2>
+
+<p class="page-subtitle">
+Manage your ShopSphere store configuration.
+</p>
+
+<form action="/admin/settings" method="POST">
+
+<div class="row g-4">
+
+<div class="col-lg-8">
+
+<div class="setting-card">
+
+<h5>Store Information</h5>
+
+<div class="mb-3">
+<label class="form-label">Store Name</label>
+<input
+type="text"
+class="form-control"
+name="storeName"
+value="<%= setting.storeName %>">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Store Email</label>
+<input
+type="email"
+class="form-control"
+name="email"
+value="<%= setting.email %>">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Phone</label>
+<input
+type="text"
+class="form-control"
+name="phone"
+value="<%= setting.phone %>">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Address</label>
+<textarea
+rows="4"
+class="form-control"
+name="address"><%= setting.address %></textarea>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Currency</label>
+
+<select
+class="form-select"
+name="currency">
+
+<option value="INR" <%= setting.currency==="INR"?"selected":"" %>>
+Indian Rupee (₹)
+</option>
+
+<option value="USD" <%= setting.currency==="USD"?"selected":"" %>>
+US Dollar ($)
+</option>
+
+<option value="EUR" <%= setting.currency==="EUR"?"selected":"" %>>
+Euro (€)
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="setting-card">
+
+<h5>Notifications</h5>
+
+<div class="switch-box">
+
+<div>
+
+<strong>Email Notifications</strong>
+
+<div class="text-muted small">
+Receive emails for important events.
+</div>
+
+</div>
+
+<div class="form-check form-switch">
+<input class="form-check-input" type="checkbox" checked>
+</div>
+
+</div>
+
+<div class="switch-box">
+
+<div>
+
+<strong>Low Stock Alerts</strong>
+
+<div class="text-muted small">
+Notify when stock is running low.
+</div>
+
+</div>
+
+<div class="form-check form-switch">
+<input class="form-check-input" type="checkbox" checked>
+</div>
+
+</div>
+
+<div class="switch-box">
+
+<div>
+
+<strong>New Order Alerts</strong>
+
+<div class="text-muted small">
+Instant notification for new orders.
+</div>
+
+</div>
+
+<div class="form-check form-switch">
+<input class="form-check-input" type="checkbox" checked>
+</div>
+
+</div>
+
+</div>
+
+<button class="btn btn-save">
+Save Changes
+</button>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="setting-card text-center">
+
+<img
+class="store-logo"
+src="https://ui-avatars.com/api/?name=ShopSphere&background=6d5bd0&color=fff&size=200">
+
+<h5><%= setting.storeName %></h5>
+
+<p class="text-muted">
+Administrator Panel
+</p>
+
+<hr>
+
+<div class="text-start">
+
+<p><strong>Email :</strong> <%= setting.email || "Not Set" %></p>
+
+<p><strong>Phone :</strong> <%= setting.phone || "Not Set" %></p>
+
+<p><strong>Currency :</strong> <%= setting.currency %></p>
+
+</div>
+
+</div>
+
+<div class="setting-card">
+
+<h5>Quick Actions</h5>
+
+<a href="/admin/dashboard" class="btn btn-outline-primary quick-btn w-100 mb-2">
+Dashboard
+</a>
+
+<a href="/admin/products" class="btn btn-outline-success quick-btn w-100 mb-2">
+Products
+</a>
+
+<a href="/admin/orders" class="btn btn-outline-warning quick-btn w-100 mb-2">
+Orders
+</a>
+
+<a href="/user/logout" class="btn btn-outline-danger quick-btn w-100">
+Logout
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

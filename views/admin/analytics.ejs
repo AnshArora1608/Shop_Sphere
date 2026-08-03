@@ -1,0 +1,315 @@
+<%- include("../partials/adminSidebar", { active: "analytics" }) %>
+<%- include("../partials/adminTopbar") %>
+
+<style>
+
+:root{
+    --ink:#12131c;
+    --line:#e7e8f0;
+    --text:#1b1d29;
+    --muted:#6b7280;
+    --accent:#6d5bd0;
+    --accent-2:#f2a93b;
+    --teal:#14b8a6;
+    --green:#16a34a;
+    --red:#dc2626;
+}
+
+body{ background:#f4f5fa; }
+.ss-main{
+margin-left:264px;
+padding:100px 32px 40px;
+min-height:100vh;
+width:calc(100% - 264px);
+box-sizing:border-box;
+}
+
+
+@media(max-width:991px){
+
+.ss-main{
+margin-left:76px;
+width:calc(100% - 76px);
+padding:90px 20px 30px;
+}
+
+}
+
+
+.ss-page-head{ margin-bottom:18px; }
+
+.ss-page-head h2{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:-.01em;
+    margin-bottom:4px;
+}
+
+.ss-page-head p{ color:var(--muted); font-size:14.5px; margin:0; }
+
+.stat-strip{
+    display:flex;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    margin-bottom:24px;
+}
+
+.stat-cell{
+    position:relative;
+    flex:1 1 0;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:20px 24px;
+}
+
+.stat-cell + .stat-cell{ border-left:1px solid var(--line); }
+
+.stat-cell::after{
+    content:"";
+    position:absolute;
+    left:0; top:22%; bottom:22%;
+    width:3px;
+    border-radius:0 3px 3px 0;
+    background:var(--dot,var(--accent));
+}
+
+.stat-icon{
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    color:#fff;
+    background:var(--dot,var(--accent));
+    flex-shrink:0;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:12.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:2px;
+}
+
+.stat-value{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:600;
+    font-size:22px;
+    color:var(--text);
+    letter-spacing:-.01em;
+    line-height:1.15;
+}
+
+@media(max-width:991px){
+    .stat-strip{ flex-wrap:wrap; }
+    .stat-cell{ flex:1 1 50%; }
+    .stat-cell:nth-child(odd){ border-left:none; }
+    .stat-cell:nth-child(1), .stat-cell:nth-child(2){ border-bottom:1px solid var(--line); }
+}
+
+@media(max-width:576px){
+    .stat-cell{ flex:1 1 100%; border-left:none !important; }
+    .stat-cell:not(:first-child){ border-top:1px solid var(--line); border-bottom:none !important; }
+}
+
+.panel{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+    height:100%;
+}
+
+.panel-title{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:700;
+    font-size:15.5px;
+    margin-bottom:2px;
+}
+
+.panel-sub{ color:var(--muted); font-size:12.5px; margin-bottom:14px; }
+
+.legend-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
+
+.legend-item{ display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted); font-weight:500; }
+
+.legend-dot{ width:9px; height:9px; border-radius:50%; }
+
+</style>
+
+<div class="ss-main">
+
+    <div class="ss-page-head">
+        <h2>Analytics</h2>
+        <p>Business performance overview.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-strip">
+
+        <div class="stat-cell" style="--dot:#16a34a;">
+            <div class="stat-icon" style="background:#16a34a;"><i class="bi bi-currency-rupee"></i></div>
+            <div>
+                <div class="stat-label">Revenue</div>
+                <div class="stat-value">₹<%= revenue %></div>
+            </div>
+        </div>
+
+        <div class="stat-cell" style="--dot:#6d5bd0;">
+            <div class="stat-icon" style="background:#6d5bd0;"><i class="bi bi-box-seam"></i></div>
+            <div>
+                <div class="stat-label">Products</div>
+                <div class="stat-value"><%= totalProducts %></div>
+            </div>
+        </div>
+
+        <div class="stat-cell" style="--dot:#f2a93b;">
+            <div class="stat-icon" style="background:#f2a93b;"><i class="bi bi-cart-check"></i></div>
+            <div>
+                <div class="stat-label">Orders</div>
+                <div class="stat-value"><%= totalOrders %></div>
+            </div>
+        </div>
+
+        <div class="stat-cell" style="--dot:#14b8a6;">
+            <div class="stat-icon" style="background:#14b8a6;"><i class="bi bi-people"></i></div>
+            <div>
+                <div class="stat-label">Users</div>
+                <div class="stat-value"><%= totalUsers %></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+            <div class="panel">
+                <div class="panel-title">Monthly Revenue</div>
+                <div class="panel-sub">Revenue collected across the year</div>
+                <canvas id="salesChart" height="130"></canvas>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="panel">
+                <div class="panel-title">Order Status</div>
+                <div class="panel-sub">Current split across all orders</div>
+                <canvas id="statusChart" height="130"></canvas>
+                <div class="legend-row" id="statusLegend"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const salesCtx = document.getElementById("salesChart").getContext("2d");
+const salesGradient = salesCtx.createLinearGradient(0, 0, 0, 260);
+salesGradient.addColorStop(0, "rgba(109,91,208,.28)");
+salesGradient.addColorStop(1, "rgba(109,91,208,0)");
+
+const salesChart = new Chart(salesCtx, {
+    type: "line",
+    data: {
+        labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        datasets: [{
+            label: "Revenue",
+            data: <%- JSON.stringify(monthlyRevenue) %>,
+            borderColor: "#6d5bd0",
+            backgroundColor: salesGradient,
+            pointBackgroundColor: "#6d5bd0",
+            pointBorderColor: "#fff",
+            pointBorderWidth: 2,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            fill: true,
+            borderWidth: 3,
+            tension: .4
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: "#12131c",
+                titleFont: { family: "Plus Jakarta Sans", weight: "700" },
+                bodyFont: { family: "Inter" },
+                padding: 10,
+                cornerRadius: 8,
+                displayColors: false,
+                callbacks: { label: (ctx) => "₹" + ctx.parsed.y.toLocaleString("en-IN") }
+            }
+        },
+        scales: {
+            x: { grid: { display: false }, ticks: { color: "#6b7280", font: { family: "Inter", size: 12 } } },
+            y: {
+                grid: { color: "#e7e8f0" },
+                ticks: {
+                    color: "#6b7280",
+                    font: { family: "Inter", size: 12 },
+                    callback: (v) => "₹" + v.toLocaleString("en-IN")
+                }
+            }
+        }
+    }
+});
+
+const statusColors = { Pending: "#f2a93b", Shipped: "#6d5bd0", Delivered: "#16a34a", Cancelled: "#dc2626" };
+const statusLabels = ["Pending","Shipped","Delivered","Cancelled"];
+const statusValues = <%- JSON.stringify(statusData) %>;
+
+const statusChart = new Chart(document.getElementById("statusChart"), {
+    type: "doughnut",
+    data: {
+        labels: statusLabels,
+        datasets: [{
+            data: statusValues,
+            backgroundColor: statusLabels.map(l => statusColors[l]),
+            borderColor: "#fff",
+            borderWidth: 3,
+            hoverOffset: 6
+        }]
+    },
+    options: {
+        cutout: "68%",
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: "#12131c",
+                titleFont: { family: "Plus Jakarta Sans", weight: "700" },
+                bodyFont: { family: "Inter" },
+                padding: 10,
+                cornerRadius: 8
+            }
+        }
+    }
+});
+
+const legendEl = document.getElementById("statusLegend");
+statusLabels.forEach((label, i) => {
+    const item = document.createElement("div");
+    item.className = "legend-item";
+    item.innerHTML = '<span class="legend-dot" style="background:' + statusColors[label] + '"></span>' + label + " (" + (statusValues[i] ?? 0) + ")";
+    legendEl.appendChild(item);
+});
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

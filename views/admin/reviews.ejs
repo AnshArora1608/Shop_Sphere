@@ -1,0 +1,246 @@
+<%- include("../partials/adminSidebar", { active: "reviews" }) %>
+<%- include("../partials/adminTopbar") %>
+
+<style>
+
+:root{
+    --ink:#12131c;
+    --line:#e7e8f0;
+    --text:#1b1d29;
+    --muted:#6b7280;
+    --accent:#6d5bd0;
+    --accent-2:#f2a93b;
+    --red:#dc2626;
+}
+
+body{ background:#f4f5fa; }
+
+.ss-page-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-bottom:26px;
+}
+
+.ss-page-head h2{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:-.01em;
+    margin-bottom:4px;
+}
+
+.ss-page-head p{ color:var(--muted); font-size:14.5px; margin:0; }
+
+.ss-chip{
+    font-size:13px;
+    font-weight:700;
+    color:var(--accent);
+    background:#f0eefb;
+    border-radius:10px;
+    padding:9px 16px;
+}
+
+.panel{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.ss-table{ width:100%; border-collapse:collapse; }
+
+.ss-table thead th{
+    text-align:left;
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--muted);
+    padding:14px 22px;
+    background:#fafafd;
+    border-bottom:1px solid var(--line);
+}
+
+.ss-table tbody td{
+    padding:14px 22px;
+    font-size:14.5px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+}
+
+.ss-table tbody tr:last-child td{ border-bottom:none; }
+.ss-table tbody tr:hover{ background:#fafafd; }
+
+.row-index{ color:var(--muted); font-family:'JetBrains Mono',monospace; font-weight:600; font-size:13px; }
+
+.rev-user{ font-weight:600; color:var(--text); }
+.rev-email{ font-size:12.5px; color:var(--muted); }
+
+.rev-product{ font-weight:600; color:var(--text); }
+
+.rating-stars{
+    color:var(--accent-2);
+    font-size:14px;
+    letter-spacing:1px;
+    white-space:nowrap;
+}
+
+.rating-stars .dim{ color:var(--line); }
+
+.rating-num{
+    font-size:12px;
+    color:var(--muted);
+    margin-left:4px;
+    font-family:'JetBrains Mono',monospace;
+}
+
+.comment-cell{ max-width:320px; color:var(--text); line-height:1.5; }
+
+.date-cell{ color:var(--muted); font-size:13.5px; white-space:nowrap; }
+
+.btn-delete{
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--red);
+    font-weight:600;
+    font-size:13px;
+    padding:8px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    white-space:nowrap;
+    transition:background .15s ease, border-color .15s ease;
+}
+.ss-main{
+margin-left:264px;
+padding:100px 32px 40px;
+min-height:100vh;
+width:calc(100% - 264px);
+box-sizing:border-box;
+}
+
+
+@media(max-width:991px){
+
+.ss-main{
+margin-left:76px;
+width:calc(100% - 76px);
+padding:90px 20px 30px;
+}
+
+}
+
+.btn-delete:hover{ background:#fef2f2; border-color:#fca5a5; }
+
+.ss-empty{ padding:64px 24px; text-align:center; color:var(--muted); }
+.ss-empty i{ font-size:36px; color:var(--line); margin-bottom:12px; display:block; }
+.ss-empty h4{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:17px; color:var(--text); margin-bottom:6px; }
+
+</style>
+
+<div class="ss-main">
+
+    <div class="ss-page-head">
+
+        <div>
+            <h2>Manage Reviews</h2>
+            <p>Customer product reviews.</p>
+        </div>
+
+        <span class="ss-chip">Total Reviews: <%= reviews.length %></span>
+
+    </div>
+
+    <% if (reviews.length === 0) { %>
+
+        <div class="panel">
+            <div class="ss-empty">
+                <i class="bi bi-star"></i>
+                <h4>No reviews found</h4>
+                Reviews left by customers will show up here.
+            </div>
+        </div>
+
+    <% } else { %>
+
+    <div class="panel">
+
+        <div class="table-responsive">
+
+            <table class="ss-table">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Product</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                <% reviews.forEach((review, index) => {
+                    const rating = Math.max(0, Math.min(5, Math.round(review.rating || 0)));
+                %>
+
+                    <tr>
+
+                        <td class="row-index"><%= index + 1 %></td>
+
+                        <td>
+                            <div class="rev-user"><%= review.user.name %></div>
+                            <div class="rev-email"><%= review.user.email %></div>
+                        </td>
+
+                        <td><span class="rev-product"><%= review.product.title %></span></td>
+
+                        <td>
+                            <span class="rating-stars">
+                                <% for (let i = 0; i < 5; i++) { %><%- i < rating ? "★" : "<span class=\"dim\">★</span>" %><% } %>
+                            </span>
+                            <span class="rating-num"><%= review.rating %>/5</span>
+                        </td>
+
+                        <td class="comment-cell"><%= review.comment %></td>
+
+                        <td class="date-cell"><%= review.createdAt.toDateString() %></td>
+
+                        <td>
+
+                            <form action="/admin/review/delete/<%= review._id %>" method="POST" onsubmit="return confirm('Delete this review?')">
+                                <button type="submit" class="btn-delete">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <% } %>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<%- include("./partials/header") %>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="d-flex align-items-baseline justify-content-between mb-4">
+    <h2 class="section-title">My cart</h2>
+</div>
+
+<% if(cartItems.length===0){ %>
+
+<div class="empty-cart">
+    <div class="empty-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l1.5 11.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.3L20 8H6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4" stroke="currentColor" stroke-width="1.4"/><circle cx="17" cy="20" r="1.4" stroke="currentColor" stroke-width="1.4"/></svg>
+    </div>
+    <h5 class="mb-1">Your cart is empty</h5>
+    <p class="text-muted mb-3">Items you add will show up here.</p>
+    <a href="/" class="btn btn-add-cart">Continue shopping</a>
+</div>
+
+<% } else { %>
+
+<div class="row g-4">
+
+<div class="col-lg-8">
+
+<% let grandTotal=0; %>
+
+<% cartItems.forEach(item=>{ %>
+
+<% grandTotal += item.product.price * item.quantity; %>
+
+<div class="cart-row">
+
+<img
+src="<%= item.product.imageURL %>"
+class="cart-img"
+alt="<%= item.product.title %>">
+
+<div class="cart-info">
+    <h5 class="cart-title"><%= item.product.title %></h5>
+    <p class="cart-unit-price">₹<%= item.product.price %> each</p>
+
+    <form
+    action="/cart/remove/<%= item._id %>"
+    method="POST">
+        <button class="btn-remove">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Remove
+        </button>
+    </form>
+</div>
+
+<div class="cart-qty">
+
+    <form
+    action="/cart/decrease/<%= item._id %>"
+    method="POST">
+        <button class="qty-btn">−</button>
+    </form>
+
+    <span class="qty-value"><%= item.quantity %></span>
+
+    <form
+    action="/cart/increase/<%= item._id %>"
+    method="POST">
+        <button class="qty-btn">+</button>
+    </form>
+
+</div>
+
+<div class="cart-total">
+    ₹<%= item.product.price * item.quantity %>
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="summary-card">
+
+    <h5 class="summary-title">Order summary</h5>
+
+    <div class="summary-line">
+        <span>Subtotal</span>
+        <span>₹<%= grandTotal %></span>
+    </div>
+
+    <div class="summary-line text-muted">
+        <span>Delivery</span>
+        <span><%= grandTotal >= 999 ? 'Free' : 'Calculated at checkout' %></span>
+    </div>
+
+    <hr>
+
+    <div class="summary-line summary-grand">
+        <span>Grand total</span>
+        <span>₹<%= grandTotal %></span>
+    </div>
+<a href="/orders/checkout" class="btn btn-add-cart w-100 mt-3">
+    Proceed to checkout
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<% } %>
+
+<style>
+
+:root{
+    --ink:#12131A;
+    --paper:#FBFBFA;
+    --accent:#3B49DF;
+    --accent-ink:#2B36B0;
+    --success:#0E8A6D;
+    --danger:#D8394C;
+    --muted:#6B7280;
+    --line:#E6E6E9;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+}
+
+body{
+    background:var(--paper);
+    font-family:var(--font-body);
+    color:var(--ink);
+}
+
+.section-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.6rem;
+    margin:0;
+}
+
+/* Empty state */
+.empty-cart{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:3.5rem 1.5rem;
+    text-align:center;
+}
+
+.empty-icon{
+    width:64px;
+    height:64px;
+    margin:0 auto 1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#EEF0FD;
+    color:var(--accent);
+}
+
+/* Cart rows */
+.cart-row{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:1rem;
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    margin-bottom:1rem;
+}
+
+.cart-img{
+    width:90px;
+    height:90px;
+    object-fit:cover;
+    border-radius:10px;
+    flex-shrink:0;
+}
+
+.cart-info{
+    flex:1;
+    min-width:0;
+}
+
+.cart-title{
+    font-family:var(--font-display);
+    font-size:1rem;
+    font-weight:600;
+    margin-bottom:.2rem;
+}
+
+.cart-unit-price{
+    font-size:.85rem;
+    color:var(--muted);
+    margin-bottom:.4rem;
+}
+
+.btn-remove{
+    background:none;
+    border:none;
+    color:var(--danger);
+    font-size:.8rem;
+    font-weight:600;
+    padding:0;
+    display:inline-flex;
+    align-items:center;
+    gap:.3rem;
+}
+
+.btn-remove:hover{
+    text-decoration:underline;
+}
+
+.cart-qty{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+    flex-shrink:0;
+}
+
+.cart-qty form{
+    display:inline;
+}
+
+.qty-btn{
+    width:30px;
+    height:30px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+    font-weight:600;
+    line-height:1;
+    transition:.15s;
+}
+
+.qty-btn:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+}
+
+.qty-value{
+    min-width:1.2rem;
+    text-align:center;
+    font-weight:600;
+}
+
+.cart-total{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.05rem;
+    min-width:80px;
+    text-align:right;
+    flex-shrink:0;
+}
+
+/* Summary card */
+.summary-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:1.5rem;
+    position:sticky;
+    top:1rem;
+}
+
+.summary-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    margin-bottom:1rem;
+}
+
+.summary-line{
+    display:flex;
+    justify-content:space-between;
+    font-size:.95rem;
+    margin-bottom:.6rem;
+}
+
+.summary-grand{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.15rem;
+    color:var(--ink);
+}
+
+.btn-add-cart{
+    background:var(--ink);
+    color:#fff;
+    border-radius:9px;
+    font-weight:600;
+    font-size:.9rem;
+    border:none;
+    padding:.65rem 1rem;
+    transition:.2s;
+}
+
+.btn-add-cart:hover{
+    background:var(--accent);
+    color:#fff;
+}
+
+@media (max-width:576px){
+    .cart-row{
+        flex-wrap:wrap;
+    }
+    .cart-total{
+        text-align:left;
+        margin-left:106px;
+    }
+}
+
+</style>
+
+<%- include("./partials/footer") %>

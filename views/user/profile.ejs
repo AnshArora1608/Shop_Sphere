@@ -1,0 +1,242 @@
+<%- include("../partials/header") %>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="d-flex align-items-baseline justify-content-between mb-4">
+    <h2 class="section-title">My profile</h2>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-4">
+
+        <div class="profile-card text-center">
+
+            <div class="profile-avatar">
+                <%= user.name.charAt(0).toUpperCase() %>
+            </div>
+
+            <h5 class="profile-name"><%= user.name %></h5>
+            <p class="profile-email text-muted"><%= user.email %></p>
+
+            <a href="/user/logout" class="btn btn-logout w-100 mt-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10 12h11m0 0l-3.5-3.5M21 12l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-8">
+
+        <div class="info-card mb-3">
+
+            <h5 class="info-title">Account details</h5>
+
+            <div class="info-row">
+                <span class="info-label">Full name</span>
+                <span class="info-value"><%= user.name %></span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Email address</span>
+                <span class="info-value"><%= user.email %></span>
+            </div>
+
+        </div>
+
+        <div class="quick-links">
+
+            <a href="/orders" class="quick-link-card">
+                <div class="quick-link-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7l8-4 8 4v10l-8 4-8-4V7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 7l8 4 8-4M12 11v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </div>
+                <div>
+                    <h6 class="mb-0">My orders</h6>
+                    <p class="text-muted mb-0 small">Track and review past purchases</p>
+                </div>
+                <svg class="ms-auto" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+
+            <a href="/cart" class="quick-link-card">
+                <div class="quick-link-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l1.5 11.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.3L20 8H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="20" r="1.4" stroke="currentColor" stroke-width="1.6"/></svg>
+                </div>
+                <div>
+                    <h6 class="mb-0">My cart</h6>
+                    <p class="text-muted mb-0 small">See what's waiting for checkout</p>
+                </div>
+                <svg class="ms-auto" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+:root{
+    --ink:#12131A;
+    --paper:#FBFBFA;
+    --accent:#3B49DF;
+    --accent-ink:#2B36B0;
+    --danger:#D8394C;
+    --muted:#6B7280;
+    --line:#E6E6E9;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+}
+
+body{
+    background:var(--paper);
+    font-family:var(--font-body);
+    color:var(--ink);
+}
+
+.section-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.6rem;
+    margin:0;
+}
+
+/* Profile card */
+.profile-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:2rem 1.5rem;
+}
+
+.profile-avatar{
+    width:76px;
+    height:76px;
+    margin:0 auto 1rem;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.8rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.profile-name{
+    font-family:var(--font-display);
+    font-weight:700;
+    margin-bottom:.2rem;
+}
+
+.profile-email{
+    font-size:.9rem;
+}
+
+.btn-logout{
+    background:#fff;
+    border:1px solid var(--line);
+    color:var(--danger);
+    font-weight:600;
+    font-size:.9rem;
+    border-radius:9px;
+    padding:.6rem 1rem;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem;
+    transition:.2s;
+}
+
+.btn-logout:hover{
+    background:var(--danger);
+    border-color:var(--danger);
+    color:#fff;
+}
+
+/* Info card */
+.info-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:1.5rem;
+}
+
+.info-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    margin-bottom:1rem;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:.75rem 0;
+    border-bottom:1px solid var(--line);
+    font-size:.95rem;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+    padding-bottom:0;
+}
+
+.info-label{
+    color:var(--muted);
+}
+
+.info-value{
+    font-weight:600;
+}
+
+/* Quick links */
+.quick-links{
+    display:flex;
+    flex-direction:column;
+    gap:.75rem;
+}
+
+.quick-link-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:1rem 1.25rem;
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    text-decoration:none;
+    color:var(--ink);
+    transition:.2s;
+}
+
+.quick-link-card:hover{
+    border-color:var(--accent);
+    box-shadow:0 10px 24px rgba(59,73,223,.10);
+    color:var(--ink);
+    transform:translateY(-2px);
+}
+
+.quick-link-icon{
+    width:44px;
+    height:44px;
+    flex-shrink:0;
+    border-radius:10px;
+    background:#EEF0FD;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.quick-link-card svg.ms-auto{
+    color:var(--muted);
+    flex-shrink:0;
+}
+
+</style>
+
+<%- include("../partials/footer") %>

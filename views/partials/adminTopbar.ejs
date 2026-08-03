@@ -1,0 +1,443 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+.ss-topbar{
+position:fixed;
+top:0;
+left:264px;
+right:0;
+height:72px;
+background:#fff;
+border-bottom:1px solid #e7e8f0;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 24px;
+z-index:999;
+}
+
+.ss-search{
+position:relative;
+width:340px;
+}
+
+.ss-search input{
+width:100%;
+height:42px;
+padding:0 48px 0 42px;
+border:1px solid #e7e8f0;
+border-radius:10px;
+background:#f8f9fc;
+outline:none;
+}
+
+.ss-search-btn{
+position:absolute;
+right:5px;
+top:5px;
+width:32px;
+height:32px;
+border:none;
+border-radius:8px;
+background:#6d5bd0;
+color:#fff;
+cursor:pointer;
+}
+
+.ss-search-btn:hover{
+background:#5a49c7;
+}
+
+.ss-search .bi-search{
+position:absolute;
+left:14px;
+top:13px;
+color:#6b7280;
+}
+
+.ss-right{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.ss-icon-btn{
+width:42px;
+height:42px;
+border:none;
+background:#fff;
+border-radius:10px;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+position:relative;
+transition:.2s;
+}
+
+.ss-icon-btn:hover{
+background:#f4f5fa;
+}
+
+.badge-dot{
+position:absolute;
+top:3px;
+right:3px;
+width:17px;
+height:17px;
+background:#f2a93b;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:10px;
+font-weight:600;
+}
+
+.ss-profile-btn{
+border:none;
+background:transparent;
+display:flex;
+align-items:center;
+gap:10px;
+padding:4px 10px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.ss-profile-btn:hover{
+background:#f4f5fa;
+}
+
+.ss-profile-btn img{
+width:40px;
+height:40px;
+border-radius:50%;
+}
+
+.ss-name{
+font-size:14px;
+font-weight:600;
+color:#1b1d29;
+}
+
+.ss-role{
+font-size:12px;
+color:#6b7280;
+}
+
+.dropdown{
+    position:relative;
+}
+
+.dropdown-menu{
+    display:none; 
+    min-width:320px;
+    border:1px solid #e7e8f0;
+    border-radius:12px;
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+    padding:0;
+    overflow:hidden;
+    margin-top:10px;
+    z-index:9999;
+}
+
+.dropdown-menu.show{
+    display:block;
+    background-color: #fff;
+}
+
+.dropdown-item{
+    display: none;
+    display:block;
+    width:100%;
+    padding:12px 16px;
+    color:#1b1d29;
+    text-decoration:none;
+}
+
+.dropdown-item:hover{
+    background:#f4f5fa;
+}
+
+.dropdown-divider{
+    margin:0;
+}
+
+.dropdown-header{
+    padding:12px 16px;
+    font-weight:700;
+    background:#fff;
+    border-bottom:1px solid #eee;
+}
+
+
+.dropdown-item small{
+color:#6b7280;
+}
+
+@media(max-width:991px){
+
+.ss-topbar{
+left:76px;
+padding:0 18px;
+}
+
+.ss-search{
+width:220px;
+}
+
+.ss-name,
+.ss-role{
+display:none;
+}
+
+}
+
+@media(max-width:576px){
+
+.ss-search{
+display:none;
+}
+
+}
+</style>
+
+<div class="ss-topbar">
+
+<form class="ss-search" action="/admin/search" method="GET">
+
+<i class="bi bi-search"></i>
+<input
+type="text"
+name="search"
+placeholder="Search..."
+value="<%= typeof query !== 'undefined' ? query : '' %>">
+
+<button class="ss-search-btn " type="submit">
+<i class="bi bi-arrow-right"></i>
+</button>
+
+</form>
+
+<div class="ss-right">
+
+<div class="dropdown">
+
+<button
+type="button"
+class="ss-icon-btn"
+data-bs-toggle="dropdown">
+
+<i class="bi bi-bell"></i>
+
+<% if(typeof notificationCount !== 'undefined' && notificationCount > 0){ %>
+<span class="badge-dot"><%= notificationCount %></span>
+<% } %>
+
+</button>
+
+<div class="dropdown-menu dropdown-menu-end">
+
+<div class="dropdown-header">
+Notifications
+</div>
+
+<% if(typeof notifications !== 'undefined' && notifications.length){ %>
+
+<% notifications.forEach(function(n){ %>
+<% notifications.forEach(function(n){ %>
+
+<a 
+href="/admin/notifications/read/<%= n._id %>"
+class="dropdown-item">
+
+<strong>
+<%= n.title %>
+</strong>
+
+<br>
+
+<small>
+<%= n.message %>
+</small>
+
+<br>
+
+<small>
+<%= new Date(n.createdAt).toLocaleString() %>
+</small>
+
+</a>
+
+<% }) %>
+<% }) %>
+
+<% }else{ %>
+
+<div class="dropdown-item text-center text-muted">
+No Notifications
+</div>
+
+<% } %>
+
+</div>
+
+</div>
+<!-- Messages -->
+<div class="dropdown">
+
+<button
+type="button"
+class="ss-icon-btn"
+data-bs-toggle="dropdown">
+
+<i class="bi bi-envelope"></i>
+
+<% if(typeof messageCount !== 'undefined' && messageCount > 0){ %>
+<span class="badge-dot"><%= messageCount %></span>
+<% } %>
+
+</button>
+
+<div class="dropdown-menu dropdown-menu-end">
+
+<div class="dropdown-header">
+Messages
+</div>
+
+<% if(typeof messages !== 'undefined' && messages.length){ %>
+
+<% messages.forEach(function(msg){ %>
+
+<div class="dropdown-item">
+
+<strong><%= msg.name %></strong>
+
+<br>
+
+<small><%= msg.subject %></small>
+
+</div>
+
+<% }) %>
+
+<% }else{ %>
+
+<div class="dropdown-item text-center text-muted">
+No Messages
+</div>
+
+<% } %>
+
+</div>
+
+</div>
+
+<!-- Profile -->
+
+<div class="dropdown">
+
+<button
+type="button"
+class="ss-profile-btn"
+data-bs-toggle="dropdown">
+
+<img
+src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(typeof user !== 'undefined' && user ? user.name : 'Admin') %>&background=6d5bd0&color=fff">
+
+<div>
+
+<div class="ss-name">
+<%= typeof user !== 'undefined' && user ? user.name : "Admin" %>
+</div>
+
+<div class="ss-role">
+Administrator
+</div>
+
+</div>
+
+<i class="bi bi-chevron-down"></i>
+
+</button>
+
+<ul class="dropdown-menu dropdown-menu-end">
+
+<li>
+
+<a class="dropdown-item" href="/admin/dashboard">
+
+<i class="bi bi-speedometer2 me-2"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item" href="/admin/settings">
+
+<i class="bi bi-gear me-2"></i>
+
+Settings
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item" href="/admin/notifications">
+
+<i class="bi bi-bell me-2"></i>
+
+Notifications
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item" href="/admin/messages">
+
+<i class="bi bi-envelope me-2"></i>
+
+Messages
+
+</a>
+
+</li>
+
+<li><hr class="dropdown-divider"></li>
+
+<li>
+
+<a
+class="dropdown-item text-danger"
+href="/user/logout">
+
+<i class="bi bi-box-arrow-right me-2"></i>
+
+Logout
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<% if (typeof bootstrapJsIncluded === 'undefined') { %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<% bootstrapJsIncluded = true; %>
+<% } %>

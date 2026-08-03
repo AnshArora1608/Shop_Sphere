@@ -1,8 +1,8 @@
-const Cart = require("../models/Cart");
-const Order = require("../models/Order");
-const Product = require("../models/Product");
+const Cart = require("../models/cart");
+const Order = require("../models/order");
+const Product = require("../models/product");
 const Notification = require("../models/notification");
-const User = require("../models/User");
+const User = require("../models/user");
 
 async function checkoutPage(req, res) {
     try {

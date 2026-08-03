@@ -1,8 +1,8 @@
-const Order = require("../models/Order");
-const Product = require("../models/Product");
-const User = require("../models/User");
-const Review = require("../models/Review");
-const Setting=require("../models/Setting");
+const Order = require("../models/order");
+const Product = require("../models/product");
+const User = require("../models/user");
+const Review = require("../models/review");
+const Setting=require("../models/setting");
 const  Notification = require("../models/notification");
 const  Contact = require("../models/contact");
 

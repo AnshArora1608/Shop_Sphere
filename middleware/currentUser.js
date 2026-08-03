@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/user");
 const { verifyToken } = require("../service/auth");
 
 async function currentUser(req, res, next) {

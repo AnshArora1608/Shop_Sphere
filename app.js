@@ -6,11 +6,11 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
 const userRoute = require("./routes/user");
-const { checkAuth } = require("./Middleware/auth");
+const { checkAuth } = require("./middleware/auth");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
-const currentUser = require("./Middleware/currentUser");
+const currentUser = require("./middleware/currentUser");
 const cartCount = require("./middleware/cartCount");
 const reviewRoute=require("./routes/review");
 const adminRoute = require("./routes/admin");

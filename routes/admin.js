@@ -3,7 +3,7 @@ const router = express.Router();
 
 const upload = require("../middleware/upload");
 const { checkAuth, admin } = require("../middleware/auth");
-const topbarData = require("../middleware/Notification");
+const topbarData = require("../middleware/notification");
 const adminData = require("../middleware/adminData");
 
 const {

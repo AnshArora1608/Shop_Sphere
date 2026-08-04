@@ -37,7 +37,7 @@
                 <div class="col-lg-6 text-center">
 
                     <img src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?w=900"
-                        class="img-fluid rounded-4 hero-img" alt="Featured products">
+                        class="img-fluid rounded-4 hero-img" alt="Featured products" loading="lazy">
 
                 </div>
 
@@ -47,71 +47,58 @@
         <% } %>
             <!-- Categories -->
             <% if(!search){ %>
-                <div class="d-flex align-items-baseline justify-content-between mb-4">
+                <div class="d-flex align-items-baseline justify-content-between mb-3 mb-md-4">
                     <h2 class="section-title">Shop by category</h2>
                 </div>
 
-                <div class="row mb-5 g-3">
+                <div class="category-scroller mb-5">
 
-                    <div class="col-6 col-md-3">
+                    <a href="/category/Electronics" class="text-decoration-none category-item">
 
-                        <a href="/category/Electronics" class="text-decoration-none">
-
-                            <div class="category-card">
-                                <div class="category-icon">
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                                        <rect x="4" y="4" width="16" height="11" rx="1.5" stroke="currentColor"
-                                            stroke-width="1.6" />
-                                        <path d="M9 19h6M12 15v4" stroke="currentColor" stroke-width="1.6"
-                                            stroke-linecap="round" />
-                                    </svg>
-                                </div>
-                                <h5>Electronics</h5>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                    <rect x="4" y="4" width="16" height="11" rx="1.5" stroke="currentColor"
+                                        stroke-width="1.6" />
+                                    <path d="M9 19h6M12 15v4" stroke="currentColor" stroke-width="1.6"
+                                        stroke-linecap="round" />
+                                </svg>
                             </div>
+                            <h5>Electronics</h5>
+                        </div>
 
-                        </a>
+                    </a>
 
-                    </div>
+                    <a href="/category/Fashion" class="text-decoration-none category-item">
 
-                    <div class="col-6 col-md-3">
-
-                        <a href="/category/Fashion" class="text-decoration-none">
-
-                            <div class="category-card">
-                                <div class="category-icon">
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                                        <path d="M8 4l4 2 4-2 3 3-2 2v11H7V9L5 7l3-3z" stroke="currentColor"
-                                            stroke-width="1.6" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                                <h5>Fashion</h5>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                    <path d="M8 4l4 2 4-2 3 3-2 2v11H7V9L5 7l3-3z" stroke="currentColor"
+                                        stroke-width="1.6" stroke-linejoin="round" />
+                                </svg>
                             </div>
+                            <h5>Fashion</h5>
+                        </div>
 
-                        </a>
+                    </a>
 
-                    </div>
+                    <a href="/category/Shoes" class="text-decoration-none category-item">
 
-                    <div class="col-6 col-md-3">
-
-                        <a href="/category/Shoes" class="text-decoration-none">
-
-                            <div class="category-card">
-                                <div class="category-icon">
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                                        <path
-                                            d="M3 16c0-2 1.5-3 3-3s2 .8 3.2.8c1.6 0 2-2.3 4-2.3 2.5 0 3.8 2.5 6.8 2.5v3.5c0 .6-.4 1-1 1H4c-.6 0-1-.4-1-1v-1.5z"
-                                            stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                                <h5>Shoes</h5>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M3 16c0-2 1.5-3 3-3s2 .8 3.2.8c1.6 0 2-2.3 4-2.3 2.5 0 3.8 2.5 6.8 2.5v3.5c0 .6-.4 1-1 1H4c-.6 0-1-.4-1-1v-1.5z"
+                                        stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                </svg>
                             </div>
+                            <h5>Shoes</h5>
+                        </div>
 
-                        </a>
+                    </a>
 
-                    </div>
-
-                    <div class="col-6 col-md-3">
-
+                    <div class="category-item">
                         <div class="category-card">
                             <div class="category-icon">
                                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -122,7 +109,6 @@
                             </div>
                             <h5>Accessories</h5>
                         </div>
-
                     </div>
 
                 </div>
@@ -137,7 +123,7 @@
                         <% } %>
 
                             <!-- Products header -->
-                            <div class="d-flex align-items-baseline justify-content-between flex-wrap gap-2 mb-4 products-header">
+                            <div class="products-header mb-3 mb-md-4">
 
                                 <div>
                                     <h2 id="products" class="section-title">
@@ -206,7 +192,7 @@
 
                                 <% } else { %>
 
-                                    <div class="row g-4">
+                                    <div class="row g-3 g-md-4">
 
                                         <% products.forEach(product=> { %>
 
@@ -216,7 +202,7 @@
 
                                                     <div class="product-img-wrap">
                                                         <img src="<%= product.imageURL %>" class="product-img"
-                                                            alt="<%= product.title %>">
+                                                            alt="<%= product.title %>" loading="lazy">
                                                     </div>
 
                                                     <div class="card-body d-flex flex-column">
@@ -359,11 +345,17 @@
                                                         --font-body: 'Inter', sans-serif;
                                                     }
 
+                                                    * {
+                                                        -webkit-tap-highlight-color: transparent;
+                                                    }
+
                                                     body {
                                                         background: var(--paper);
                                                         font-family: var(--font-body);
                                                         color: var(--ink);
                                                         overflow-x: hidden;
+                                                        padding-left: env(safe-area-inset-left);
+                                                        padding-right: env(safe-area-inset-right);
                                                     }
 
                                                     h1,
@@ -413,18 +405,25 @@
                                                         background: var(--accent);
                                                         color: #fff;
                                                         font-weight: 600;
-                                                        padding: .7rem 1.4rem;
+                                                        padding: .8rem 1.4rem;
+                                                        min-height: 44px;
                                                         border-radius: 10px;
                                                         display: inline-flex;
                                                         align-items: center;
+                                                        justify-content: center;
                                                         gap: .5rem;
-                                                        transition: .2s;
+                                                        transition: .15s;
                                                         border: none;
                                                     }
 
                                                     .btn-hero:hover {
                                                         background: var(--accent-ink);
                                                         color: #fff;
+                                                    }
+
+                                                    .btn-hero:active {
+                                                        transform: scale(.97);
+                                                        background: var(--accent-ink);
                                                     }
 
                                                     .hero-img {
@@ -437,7 +436,7 @@
                                                     /* Section titles */
                                                     .section-title {
                                                         font-weight: 700;
-                                                        font-size: clamp(1.25rem, 1.5vw + 1rem, 1.6rem);
+                                                        font-size: clamp(1.15rem, 1.5vw + 1rem, 1.6rem);
                                                         margin: 0;
                                                     }
 
@@ -451,6 +450,15 @@
                                                     .results-query {
                                                         color: var(--ink);
                                                         font-weight: 600;
+                                                    }
+
+                                                    /* Products header */
+                                                    .products-header {
+                                                        display: flex;
+                                                        align-items: baseline;
+                                                        justify-content: space-between;
+                                                        flex-wrap: wrap;
+                                                        gap: .75rem;
                                                     }
 
                                                     /* Sort control */
@@ -472,6 +480,7 @@
                                                         border-color: var(--line);
                                                         font-size: .85rem;
                                                         min-width: 170px;
+                                                        min-height: 40px;
                                                     }
 
                                                     .sort-select:focus {
@@ -479,7 +488,18 @@
                                                         box-shadow: 0 0 0 3px rgba(59, 73, 223, .15);
                                                     }
 
-                                                    /* Categories */
+                                                    /* Categories — grid on tablet/desktop */
+                                                    .category-scroller {
+                                                        display: grid;
+                                                        grid-template-columns: repeat(4, 1fr);
+                                                        gap: .75rem;
+                                                    }
+
+                                                    .category-item {
+                                                        text-decoration: none;
+                                                        color: var(--ink);
+                                                    }
+
                                                     .category-card {
                                                         background: #fff;
                                                         border: 1px solid var(--line);
@@ -488,12 +508,17 @@
                                                         text-align: center;
                                                         transition: .2s ease;
                                                         color: var(--ink);
+                                                        height: 100%;
                                                     }
 
                                                     .category-card:hover {
                                                         border-color: var(--accent);
                                                         transform: translateY(-3px);
                                                         box-shadow: 0 10px 24px rgba(59, 73, 223, .12);
+                                                    }
+
+                                                    .category-card:active {
+                                                        transform: scale(.97);
                                                     }
 
                                                     .category-icon {
@@ -582,6 +607,10 @@
                                                         font-size: 1rem;
                                                         font-weight: 600;
                                                         margin-bottom: 0;
+                                                        display: -webkit-box;
+                                                        -webkit-line-clamp: 2;
+                                                        -webkit-box-orient: vertical;
+                                                        overflow: hidden;
                                                     }
 
                                                     .product-price {
@@ -603,10 +632,23 @@
                                                         color: #F5A623;
                                                     }
 
+                                                    .btn-outline-dark,
+                                                    .btn-add-cart {
+                                                        min-height: 44px;
+                                                        display: flex;
+                                                        align-items: center;
+                                                        justify-content: center;
+                                                    }
+
                                                     .btn-outline-dark {
                                                         border-radius: 9px;
                                                         font-weight: 600;
                                                         font-size: .9rem;
+                                                        transition: .15s;
+                                                    }
+
+                                                    .btn-outline-dark:active {
+                                                        transform: scale(.97);
                                                     }
 
                                                     .btn-add-cart {
@@ -616,12 +658,17 @@
                                                         font-weight: 600;
                                                         font-size: .9rem;
                                                         border: none;
-                                                        transition: .2s;
+                                                        transition: .15s;
                                                     }
 
                                                     .btn-add-cart:hover {
                                                         background: var(--accent);
                                                         color: #fff;
+                                                    }
+
+                                                    .btn-add-cart:active {
+                                                        transform: scale(.97);
+                                                        background: var(--accent-ink);
                                                     }
 
                                                     /* Feature icons */
@@ -661,18 +708,25 @@
                                                     .chip-link {
                                                         border: 1px solid var(--line);
                                                         border-radius: 20px;
-                                                        padding: .4rem .9rem;
+                                                        padding: .5rem 1rem;
                                                         font-size: .85rem;
                                                         font-weight: 600;
                                                         color: var(--ink);
                                                         text-decoration: none;
                                                         transition: .15s;
+                                                        min-height: 40px;
+                                                        display: inline-flex;
+                                                        align-items: center;
                                                     }
 
                                                     .chip-link:hover {
                                                         border-color: var(--accent);
                                                         color: var(--accent);
                                                         background: #EEF0FD;
+                                                    }
+
+                                                    .chip-link:active {
+                                                        transform: scale(.96);
                                                     }
 
                                                     /* Footer */
@@ -696,8 +750,13 @@
 
                                                     @media (max-width: 767px) {
 
+                                                        html {
+                                                            font-size: 15.5px;
+                                                        }
+
                                                         .hero {
                                                             text-align: center;
+                                                            padding: 1.75rem 1.25rem !important;
                                                         }
 
                                                         .hero-sub {
@@ -711,16 +770,55 @@
                                                         }
 
                                                         .hero-img {
-                                                            max-height: 220px;
+                                                            max-height: 200px;
+                                                        }
+
+                                                        /* Categories become a swipeable strip */
+                                                        .category-scroller {
+                                                            display: flex;
+                                                            overflow-x: auto;
+                                                            scroll-snap-type: x mandatory;
+                                                            -webkit-overflow-scrolling: touch;
+                                                            gap: .65rem;
+                                                            margin: 0 -1rem;
+                                                            padding: .2rem 1rem .5rem;
+                                                            scrollbar-width: none;
+                                                        }
+
+                                                        .category-scroller::-webkit-scrollbar {
+                                                            display: none;
+                                                        }
+
+                                                        .category-item {
+                                                            flex: 0 0 auto;
+                                                            width: 108px;
+                                                            scroll-snap-align: start;
+                                                        }
+
+                                                        .category-card {
+                                                            padding: 1rem .5rem;
+                                                        }
+
+                                                        .category-icon {
+                                                            width: 44px;
+                                                            height: 44px;
                                                         }
 
                                                         .products-header {
-                                                            align-items: stretch !important;
+                                                            position: sticky;
+                                                            top: 0;
+                                                            z-index: 5;
+                                                            background: var(--paper);
+                                                            padding: .6rem 0;
+                                                            margin: 0 -1rem 1rem;
+                                                            padding-inline: 1rem;
+                                                            border-bottom: 1px solid var(--line);
+                                                            align-items: center !important;
                                                         }
 
                                                         .sort-control {
                                                             width: 100%;
-                                                            flex-wrap: wrap;
+                                                            flex-wrap: nowrap;
                                                         }
 
                                                         .sort-select {
@@ -732,15 +830,7 @@
                                                             flex-direction: column;
                                                             align-items: flex-start;
                                                             text-align: left;
-                                                        }
-
-                                                        .category-card {
-                                                            padding: 1.1rem .75rem;
-                                                        }
-
-                                                        .category-icon {
-                                                            width: 44px;
-                                                            height: 44px;
+                                                            padding: 1rem 1.15rem;
                                                         }
 
                                                         .feature-icon {
@@ -751,24 +841,30 @@
 
                                                     @media (max-width: 576px) {
 
-                                                        .hero {
-                                                            padding: 1.75rem 1.25rem !important;
-                                                        }
-
                                                         .product-img-wrap {
-                                                            height: 140px;
+                                                            height: 160px;
                                                         }
 
                                                         .product-card .card-body {
-                                                            padding: .75rem;
+                                                            padding: .7rem;
                                                         }
 
                                                         .product-title {
-                                                            font-size: .9rem;
+                                                            font-size: .88rem;
+                                                        }
+
+                                                        .product-price {
+                                                            font-size: 1rem;
                                                         }
 
                                                         .empty-state {
                                                             padding: 2.5rem 1rem;
+                                                        }
+                                                    }
+
+                                                    @media (max-width: 380px) {
+                                                        .category-item {
+                                                            width: 92px;
                                                         }
                                                     }
                                                 </style>

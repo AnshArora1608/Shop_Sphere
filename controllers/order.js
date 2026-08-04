@@ -132,7 +132,7 @@ async function buyNow(req, res) {
             return res.status(404).send("Product not found");
         }
 
-        res.render("checkout", {
+        res.render("buyNowCheckout", {
             product
         });
 

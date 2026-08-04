@@ -5,11 +5,6 @@ async function addToCart(req, res) {
 
         const userId = req.user.id;
         const productId = req.params.id;
-
-        console.log("========== ADD TO CART ==========");
-        console.log("USER ID:", userId);
-        console.log("PRODUCT ID:", productId);
-
         const existingItem = await Cart.findOne({
             user: userId,
             product: productId,
@@ -31,14 +26,10 @@ async function addToCart(req, res) {
                 quantity: 1,
             });
 
-            console.log("Created New Cart Item");
-            console.log(newItem);
         }
 
         const allCartItems = await Cart.find();
 
-        console.log("ALL CART ITEMS AFTER INSERT:");
-        console.log(allCartItems);
 
         return res.redirect("/cart");
 

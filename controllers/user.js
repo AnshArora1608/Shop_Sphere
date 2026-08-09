@@ -2,10 +2,11 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const { createToken } = require("../service/auth");
 
+//get req
 async function signupPage(req, res) {
     return res.render("user/signup");
 }
-
+//post req
 async function signupUser(req, res) {
     try {
         const { name, email, password } = req.body;
@@ -34,11 +35,11 @@ async function signupUser(req, res) {
         return res.status(500).send("Internal Server Error");
     }
 }
-
+//get req
 async function loginPage(req, res) {
     return res.render("user/login");
 }
-
+//post req
 async function loginUser(req, res) {
     try {
         const { email, password } = req.body;
@@ -67,7 +68,6 @@ async function loginUser(req, res) {
     }
 }
 async function profile(req, res) {
-
     const user = await User.findById(req.user.id);
     console.log(user)
     res.render("user/profile", {
@@ -77,11 +77,8 @@ async function profile(req, res) {
 }
 
 function logoutUser(req, res) {
-
     res.clearCookie("uid");
-
     res.redirect("/");
-
 }
 
 module.exports = {

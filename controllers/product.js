@@ -2,13 +2,12 @@ const Product = require("../models/product");
 const cloudinary = require("../config/cloudinary");
 
 const Review=require("../models/review");
+
 async function addProductPage(req, res) {
     res.render("admin/addProduct");
 }
 async function addProduct(req, res) {
-
     try {
-
         const {
             title,
             description,

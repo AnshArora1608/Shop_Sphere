@@ -18,7 +18,7 @@ async function saveContact(req, res) {
             message: `${name} sent a new message.`,
             type: "contact"
         });
-        console.log("Notification",Notification)
+        // console.log("Notification",Notification)
         res.redirect("/contact");
     } catch (err) {
         console.log(err);

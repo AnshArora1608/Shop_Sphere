@@ -5,10 +5,9 @@ const Review = require("../models/review");
 const Setting=require("../models/setting");
 const  Notification = require("../models/notification");
 const  Contact = require("../models/contact");
-
 const cloudinary = require("../config/cloudinary");
 
-// ================= Dashboard =================
+// Dashboard
 async function dashboard(req,res){
 try{
 const totalProducts=await Product.countDocuments();
@@ -40,7 +39,7 @@ console.log(err);
 res.status(500).send("Internal Server Error");
 }
 }
-// ================= Products =================
+// Products 
 async function allProducts(req,res){
 try{
 const products=await Product.find().sort({createdAt:-1});
@@ -54,12 +53,13 @@ async function deleteProduct(req,res){
 try{
 await Product.findByIdAndDelete(req.params.id);
 res.redirect("/admin/products");
+await Review.deleteMany({product: productId});
 }catch(err){
 console.log(err);
 res.status(500).send("Internal Server Error");
 }
 }
-// ================= Orders =================
+// Orders 
 async function allOrders(req,res){
 try{
 const orders=await Order.find()
@@ -110,21 +110,23 @@ res.status(500).send("Internal Server Error");
 }
 }
 // ================= Reviews =================
-async function allReviews(req,res){
-try{
-const reviews=await Review.find()
-.populate("user")
-.populate("product")
-.sort({createdAt:-1});
+async function allReviews(req, res) {
+    try {
+        const reviews = await Review.find()
+            .populate("user")
+            .populate("product")
+            .sort({ createdAt: -1 });
 
-res.render("admin/reviews",{
-reviews
-});
+        const validReviews = reviews.filter(review => review.product);
 
-}catch(err){
-console.log(err);
-res.status(500).send("Internal Server Error");
-}
+        res.render("admin/reviews", {
+            reviews: validReviews
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+    }
 }
 async function deleteReview(req,res){
 try{

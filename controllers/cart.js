@@ -15,22 +15,16 @@ async function addToCart(req, res) {
             existingItem.quantity += 1;
             await existingItem.save();
 
-            console.log("Updated Existing Item");
-            console.log(existingItem);
-
+            // console.log("Updated Existing Item");
+            // console.log(existingItem);
         } else {
-
             const newItem = await Cart.create({
                 user: userId,
                 product: productId,
                 quantity: 1,
             });
-
         }
-
         const allCartItems = await Cart.find();
-
-
         return res.redirect("/cart");
 
     } catch (error) {
@@ -44,12 +38,10 @@ async function addToCart(req, res) {
 async function showCart(req, res) {
 
     try {
-
-
         const allCartItems = await Cart.find().populate("product");
 
-        console.log("ALL CART ITEMS:");
-        console.log(allCartItems);
+        // console.log("ALL CART ITEMS:");
+        // console.log(allCartItems);
 
         const cartItems = await Cart.find({
             user: req.user.id,
@@ -124,18 +116,12 @@ async function decreaseQuantity(req, res) {
 }
 
 async function removeFromCart(req, res) {
-
     try {
-
         await Cart.findByIdAndDelete(req.params.id);
-
         return res.redirect("/cart");
-
     } catch (error) {
-
         console.log(error);
         return res.status(500).send("Internal Server Error");
-
     }
 }
 

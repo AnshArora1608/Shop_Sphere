@@ -72,13 +72,12 @@ router.get("/search", adminSearch);
 
 // Contact
 router.post("/contact", saveContact);
-
 // Notifications
 router.get("/notifications", getNotifications);
-router.post("/notification/:id/read", markNotificationRead);
+router.get("/notifications/read/:id", markNotificationRead);
+
 
 // Messages
 router.get("/messages", getMessages);
-router.post("/message/:id/read", markMessageRead);
-
+router.get("/message/read/:id", markMessageRead);
 module.exports = router;

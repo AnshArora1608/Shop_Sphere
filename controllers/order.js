@@ -20,10 +20,7 @@ async function checkoutPage(req, res) {
             totalPrice += item.product.price * item.quantity;
         });
 
-        res.render("checkout", {
-            cartItems,
-            totalPrice
-        });
+        res.render("checkout", {cartItems,totalPrice});
 
     } catch (error) {
         console.log(error);
@@ -33,6 +30,7 @@ async function checkoutPage(req, res) {
 
 async function checkout(req, res) {
     try {
+        //cart
         const cartItems = await Cart.find({
             user: req.user.id
         }).populate("product");
@@ -40,14 +38,12 @@ async function checkout(req, res) {
         if (cartItems.length === 0) {
             return res.send("Cart is Empty");
         }
-
-        // Fetch full user from DB
         const user = await User.findById(req.user.id);
-
+        //user find
         if (!user) {
             return res.status(404).send("User not found");
         }
-
+        //price
         let totalPrice = 0;
 
         const products = cartItems.map(item => {
@@ -59,7 +55,7 @@ async function checkout(req, res) {
                 price: item.product.price
             };
         });
-
+        //order create
         await Order.create({
             user: req.user.id,
             products,
@@ -78,7 +74,7 @@ async function checkout(req, res) {
             },
             paymentMethod: req.body.paymentMethod || "COD"
         });
-
+        // quanity decrease
         for (let item of cartItems) {
             await Product.findByIdAndUpdate(
                 item.product._id,
@@ -89,11 +85,11 @@ async function checkout(req, res) {
                 }
             );
         }
-
+        // order already created than cart empty
         await Cart.deleteMany({
             user: req.user.id
         });
-
+        // admin notification
         await Notification.create({
             title: "New Order Placed",
             message: "New order placed",
@@ -150,13 +146,13 @@ async function placeOrder(req, res) {
             return res.status(404).send("Product not found");
         }
 
-        // Fetch full user from DB
+        // getting full user from DB
         const user = await User.findById(req.user.id);
 
         if (!user) {
             return res.status(404).send("User not found");
         }
-
+        //order create    
         await Order.create({
             user: req.user.id,
             products: [

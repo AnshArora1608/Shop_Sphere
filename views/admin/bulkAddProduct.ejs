@@ -1,0 +1,569 @@
+<%- include("../partials/adminSidebar", { active: "bulk-add-product" }) %>
+<%- include("../partials/adminTopbar") %>
+
+<style>
+    :root {
+        --ink: #12131c;
+        --line: #e7e8f0;
+        --text: #1b1d29;
+        --muted: #6b7280;
+        --accent: #6d5bd0;
+        --accent-2: #f2a93b;
+    }
+
+    body {
+        background: #f4f5fa;
+    }
+
+    .ss-main {
+        margin-left: 264px;
+        padding: 100px 32px 40px;
+        min-height: 100vh;
+        width: calc(100% - 264px);
+        box-sizing: border-box;
+    }
+
+    .ss-page-head {
+        margin-bottom: 26px;
+    }
+
+    .ss-page-head h2 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
+        font-size: 26px;
+        letter-spacing: -.01em;
+        margin-bottom: 4px;
+    }
+
+    .ss-page-head p {
+        color: var(--muted);
+        font-size: 14.5px;
+        margin: 0;
+    }
+
+    .bulk-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 24px;
+        align-items: start;
+    }
+
+    .panel {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 28px;
+    }
+
+    .panel-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 6px;
+    }
+
+    .panel-description {
+        color: var(--muted);
+        font-size: 13.5px;
+        margin-bottom: 22px;
+    }
+
+    /* Upload zone */
+
+    .upload-zone {
+        border: 2px dashed var(--line);
+        border-radius: 14px;
+        padding: 30px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: .15s ease;
+        position: relative;
+        overflow: hidden;
+        background: #fafafd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .upload-zone:hover {
+        border-color: var(--accent);
+        background: #faf9ff;
+    }
+
+    .upload-zone i {
+        font-size: 32px;
+        color: var(--accent);
+    }
+
+    .upload-zone h5 {
+        margin: 10px 0 5px;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .upload-zone p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--muted);
+    }
+
+    .upload-zone input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* File list */
+
+    .file-list {
+        margin-top: 16px;
+        display: none;
+    }
+
+    .file-list-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 8px;
+    }
+
+    .file-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 9px 11px;
+        background: #fafafd;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-bottom: 7px;
+        font-size: 12.5px;
+    }
+
+    .file-item-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .file-item-type {
+        color: var(--muted);
+        white-space: nowrap;
+    }
+
+    /* Instructions */
+
+    .side-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+
+    .side-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+    }
+
+    .side-list li {
+        display: flex;
+        gap: 9px;
+        align-items: flex-start;
+        color: var(--muted);
+        font-size: 13.5px;
+        line-height: 1.5;
+    }
+
+    .side-list i {
+        color: var(--accent);
+        margin-top: 2px;
+    }
+
+    .csv-box {
+        margin-top: 24px;
+        padding: 15px;
+        border-radius: 10px;
+        background: #f7f7fc;
+        border: 1px solid var(--line);
+    }
+
+    .csv-box-title {
+        font-size: 12.5px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--text);
+    }
+
+    .csv-box code {
+        display: block;
+        font-size: 11.5px;
+        line-height: 1.7;
+        color: #555;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    /* Actions */
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .btn-ghost {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--text);
+        font-weight: 600;
+        font-size: 14px;
+        padding: 11px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .btn-ghost:hover {
+        background: #fafafd;
+        color: var(--text);
+    }
+
+    .btn-submit {
+        border: none;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 11px 24px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: .15s ease;
+    }
+
+    .btn-submit:hover {
+        background: #5c4cc2;
+    }
+
+    .btn-submit:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+    }
+
+    .selected-count {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--muted);
+        display: none;
+    }
+
+    @media(max-width: 900px) {
+        .bulk-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media(max-width: 991px) {
+        .ss-main {
+            margin-left: 76px;
+            width: calc(100% - 76px);
+            padding: 90px 20px 30px;
+        }
+    }
+
+    @media(max-width: 576px) {
+        .panel {
+            padding: 20px;
+        }
+
+        .ss-page-head h2 {
+            font-size: 22px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn-ghost,
+        .btn-submit {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+
+<div class="ss-main">
+
+    <div class="ss-page-head">
+        <h2>Bulk Add Products</h2>
+        <p>Add multiple products at once using a CSV file and product images.</p>
+    </div>
+
+
+    <form
+        action="/admin/products/bulk-add"
+        method="POST"
+        enctype="multipart/form-data"
+        id="bulkProductForm"
+    >
+
+        <div class="bulk-grid">
+
+            <!-- LEFT SIDE -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Upload CSV & Product Images
+                </div>
+
+                <div class="panel-description">
+                    Select your CSV file and all the product images together.
+                </div>
+
+
+                <label class="upload-zone" id="uploadZone">
+
+                    <i class="bi bi-cloud-arrow-up"></i>
+
+                    <h5>
+                        Click to select files
+                    </h5>
+
+                    <p>
+                        Select CSV + product images
+                        <br>
+                        CSV, JPG, JPEG or PNG
+                    </p>
+
+                    <input
+                        type="file"
+                        name="files"
+                        id="bulkFiles"
+                        multiple
+                        accept=".csv,image/jpeg,image/png,image/jpg"
+                        required
+                    >
+
+                </label>
+
+
+                <div class="selected-count" id="selectedCount"></div>
+
+
+                <div class="file-list" id="fileList">
+
+                    <div class="file-list-title">
+                        Selected files
+                    </div>
+
+                    <div id="fileItems"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="panel">
+
+                <div class="side-title">
+                    CSV Format
+                </div>
+
+                <ul class="side-list">
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        CSV must contain product information.
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Image name must exactly match the uploaded image.
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Price and stock should contain numbers.
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Every product should have an image.
+                    </li>
+
+                </ul>
+
+
+                <div class="csv-box">
+
+                    <div class="csv-box-title">
+                        Required columns
+                    </div>
+
+                    <code>title
+description
+price
+category
+stock
+image</code>
+
+                </div>
+
+
+                <div class="csv-box">
+
+                    <div class="csv-box-title">
+                        Example
+                    </div>
+
+                    <code>title,description,price,category,stock,image
+
+iPhone 15,Latest Apple smartphone,69999,Electronics,10,iphone.jpg
+
+Nike Air Max,Running shoes,8999,Shoes,20,nike.jpg</code>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <a
+                href="/admin/products"
+                class="btn-ghost"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="btn-submit"
+                id="submitBtn"
+            >
+                <i class="bi bi-cloud-upload"></i>
+                Upload Products
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+const bulkFiles = document.getElementById("bulkFiles");
+const fileList = document.getElementById("fileList");
+const fileItems = document.getElementById("fileItems");
+const selectedCount = document.getElementById("selectedCount");
+const submitBtn = document.getElementById("submitBtn");
+
+bulkFiles.addEventListener("change", function () {
+
+    const files = Array.from(this.files);
+
+    fileItems.innerHTML = "";
+
+    if (files.length === 0) {
+
+        fileList.style.display = "none";
+        selectedCount.style.display = "none";
+
+        return;
+    }
+
+
+    const csvFiles = files.filter(file =>
+        file.name.toLowerCase().endsWith(".csv")
+    );
+
+    const imageFiles = files.filter(file =>
+        file.type.startsWith("image/")
+    );
+
+
+    if (csvFiles.length !== 1) {
+
+        alert("Please select exactly one CSV file.");
+
+        this.value = "";
+
+        fileList.style.display = "none";
+        selectedCount.style.display = "none";
+
+        return;
+    }
+
+
+    selectedCount.textContent =
+        `${files.length} files selected (${imageFiles.length} images + 1 CSV)`;
+
+    selectedCount.style.display = "block";
+
+
+    files.forEach(file => {
+
+        const item = document.createElement("div");
+
+        item.className = "file-item";
+
+        item.innerHTML = `
+            <span class="file-item-name">
+                <i class="bi ${
+                    file.name.toLowerCase().endsWith(".csv")
+                    ? "bi-filetype-csv"
+                    : "bi-image"
+                }"></i>
+                ${file.name}
+            </span>
+
+            <span class="file-item-type">
+                ${(file.size / 1024).toFixed(1)} KB
+            </span>
+        `;
+
+        fileItems.appendChild(item);
+
+    });
+
+
+    fileList.style.display = "block";
+
+});
+
+
+document.getElementById("bulkProductForm").addEventListener("submit", function () {
+
+    submitBtn.disabled = true;
+
+    submitBtn.innerHTML = `
+        <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+        ></span>
+        Uploading products...
+    `;
+
+});
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

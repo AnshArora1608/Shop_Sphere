@@ -26,7 +26,9 @@ const {
     getNotifications,
     getMessages,
     markNotificationRead,
-    markMessageRead
+    markMessageRead,
+    bulkAddProducts,
+    bulkProductPage,
 } = require("../controllers/admin");
 
 const {
@@ -47,6 +49,15 @@ router.get("/products/edit/:id", editProductPage);
 router.post("/product/add", upload.single("image"), addProduct);
 router.post("/product/edit/:id", upload.single("image"), updateProduct);
 router.post("/product/delete/:id", deleteProduct);
+
+//bulk-add
+router.get("/products/bulk-add", bulkProductPage);
+router.post(
+    "/products/bulk-add",
+    upload.array("files", 101),
+    bulkAddProducts
+);
+
 
 // Orders
 router.get("/orders", allOrders);

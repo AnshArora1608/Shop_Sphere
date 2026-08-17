@@ -228,21 +228,25 @@
 
         <div class="ss-group-label">Catalog</div>
 
-        <a href="/admin/products" class="<%= typeof active !== 'undefined' && active === 'products' ? 'active' : '' %>">
-            <i class="bi bi-box-seam"></i>
-            <span>Products</span>
-        </a>
+<a href="/admin/products" class="<%= typeof active !== 'undefined' && active === 'products' ? 'active' : '' %>">
+    <i class="bi bi-box-seam"></i>
+    <span>Products</span>
+</a>
 
-        <a href="/admin/product/add" class="<%= typeof active !== 'undefined' && active === 'add-product' ? 'active' : '' %>">
-            <i class="bi bi-plus-circle"></i>
-            <span>Add Product</span>
-        </a>
+<a href="/admin/product/add" class="<%= typeof active !== 'undefined' && active === 'add-product' ? 'active' : '' %>">
+    <i class="bi bi-plus-circle"></i>
+    <span>Add Product</span>
+</a>
 
-        <a href="/admin/reviews" class="<%= typeof active !== 'undefined' && active === 'reviews' ? 'active' : '' %>">
-            <i class="bi bi-star-half"></i>
-            <span>Reviews</span>
-        </a>
+<a href="/admin/products/bulk-add" class="<%= typeof active !== 'undefined' && active === 'bulk-add-product' ? 'active' : '' %>">
+    <i class="bi bi-cloud-arrow-up"></i>
+    <span>Bulk Add Products</span>
+</a>
 
+<a href="/admin/reviews" class="<%= typeof active !== 'undefined' && active === 'reviews' ? 'active' : '' %>">
+    <i class="bi bi-star-half"></i>
+    <span>Reviews</span>
+</a>
         <div class="ss-group-label">Sales &amp; People</div>
 
         <a href="/admin/orders" class="<%= typeof active !== 'undefined' && active === 'orders' ? 'active' : '' %>">

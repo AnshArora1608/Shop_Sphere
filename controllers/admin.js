@@ -420,7 +420,94 @@ async function markMessageRead(req, res) {
 }
 
 
+const fs = require("fs");
+const path = require("path");
+const csv = require("csv-parser");
 
+async function bulkProductPage(req, res) {
+    res.render("admin/bulkAddProduct");
+}
+async function bulkAddProducts(req, res) {
+    try {
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).send("Please upload product images.");
+        }
+
+        const csvFile = req.files.find(
+            file => file.mimetype === "text/csv" || file.originalname.endsWith(".csv")
+        );
+
+        const imageFiles = req.files.filter(
+            file => file !== csvFile
+        );
+
+        if (!csvFile) {
+            return res.status(400).send("Please upload a CSV file.");
+        }
+
+        const products = [];
+
+        // Convert CSV buffer into readable stream
+        const { Readable } = require("stream");
+
+        await new Promise((resolve, reject) => {
+            Readable.from(csvFile.buffer)
+                .pipe(csv())
+                .on("data", (row) => {
+                    products.push(row);
+                })
+                .on("end", resolve)
+                .on("error", reject);
+        });
+
+        if (products.length === 0) {
+            return res.status(400).send("CSV file is empty.");
+        }
+
+        let addedCount = 0;
+
+        for (const product of products) {
+
+            const imageFile = imageFiles.find(
+                file =>
+                    file.originalname.toLowerCase() ===
+                    product.image.trim().toLowerCase()
+            );
+
+            if (!imageFile) {
+                console.log(`Image not found: ${product.image}`);
+                continue;
+            }
+
+            // Upload image to Cloudinary
+            const uploadResult = await cloudinary.uploader.upload(
+                `data:${imageFile.mimetype};base64,${imageFile.buffer.toString("base64")}`,
+                {
+                    folder: "shopsphere_products"
+                }
+            );
+
+            // Save product in MongoDB
+            await Product.create({
+                title: product.title,
+                description: product.description,
+                price: Number(product.price),
+                category: product.category,
+                stock: Number(product.stock),
+                imageURL: uploadResult.secure_url,
+                createdBy: req.user.id
+            });
+
+            addedCount++;
+        }
+
+        res.send(`${addedCount} products added successfully.`);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Bulk product upload failed.");
+    }
+}
 
 
 module.exports={
@@ -443,5 +530,7 @@ saveContact,
 getNotifications,
 getMessages,
 markNotificationRead,
-markMessageRead
+markMessageRead,
+bulkAddProducts,
+bulkProductPage,
 };
